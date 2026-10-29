@@ -1,1 +1,714 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoom CUP | زوم كب — Coffee & Sweet</title>
+    <!-- Favicon & Social Meta -->
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+    <meta property="og:title" content="Zoom CUP | زوم كب">
+    <meta property="og:description" content="Specialty Coffee & Sweet — قهوة مختصة وحلى">
+    <meta property="og:image" content="assets/logo.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter, Montserrat, Pacifico & Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brandYellow: '#FACC15',
+                        brandYellowBright: '#FFE600',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                        script: ['Pacifico', 'cursive'],
+                        arabic: ['Cairo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 
+    <style>
+        /* Subtle floating animation for the logo */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-4px); }
+        }
+        .animate-float {
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+        .link-card {
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .link-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 6px 6px 0px 0px #000000;
+        }
+        .dark .link-card:hover {
+            box-shadow: 6px 6px 0px 0px #FFE600;
+        }
+        .link-card:active {
+            transform: translateY(0px);
+        }
+        /* Subtle dot pattern */
+        .bg-grid-pattern {
+            background-size: 26px 26px;
+            background-image: radial-gradient(circle, currentColor 1.2px, transparent 1.2px);
+        }
+        html[dir="rtl"] body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+        }
+        /* Hide scrollbars on filter tabs */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-[#FFE600] text-black dark:bg-[#0d0d0d] dark:text-[#FFE600] min-h-screen flex flex-col justify-between relative selection:bg-black selection:text-[#FFE600] dark:selection:bg-[#FFE600] dark:selection:text-black transition-colors duration-500 overflow-x-hidden">
+
+    <!-- Subtle Decorative Background Grid -->
+    <div class="fixed inset-0 pointer-events-none opacity-[0.08] dark:opacity-[0.08] bg-grid-pattern"></div>
+
+    <!-- Top Utility Bar -->
+    <header class="w-full max-w-md mx-auto px-6 pt-6 flex items-center justify-between z-10">
+        <!-- Status Pill -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border-2 border-black dark:border-[#FFE600] bg-black/5 dark:bg-[#FFE600]/10 text-xs font-extrabold tracking-wider uppercase">
+            <span class="w-2 h-2 rounded-full bg-black dark:bg-[#FFE600] animate-ping"></span>
+            <span data-en="Specialty Coffee" data-ar="قهوة مختصة وحلى">Specialty Coffee</span>
+        </div>
+
+        <!-- Action Buttons: Language, QR & Theme Switch -->
+        <div class="flex items-center gap-2">
+            <button id="langToggle" aria-label="Switch Language" class="px-3.5 py-2 rounded-full border-2 border-black dark:border-[#FFE600] bg-[#FFE600] dark:bg-black hover:bg-black hover:text-[#FFE600] dark:hover:bg-[#FFE600] dark:hover:text-black transition-colors duration-200 text-xs font-extrabold tracking-wider flex items-center gap-1.5 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#FFE600]" title="تغيير اللغة / Switch Language">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path>
+                </svg>
+                <span id="langBtnLabel" class="font-arabic">عربي</span>
+            </button>
+            <button id="qrBtn" aria-label="Show QR Code" class="p-2.5 rounded-full border-2 border-black dark:border-[#FFE600] bg-[#FFE600] dark:bg-black hover:bg-black hover:text-[#FFE600] dark:hover:bg-[#FFE600] dark:hover:text-black transition-colors duration-200 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#FFE600]" title="Share & QR Code">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h6v6H3V3zm12 0h6v6h-6V3zM3 15h6v6H3v-6zm13 0h2v2h-2v-2zm3 3h2v3h-2v-3zm-3 3h2v-2h-2v2zm3-6h2v2h-2v-2z"/>
+                </svg>
+            </button>
+            <button id="themeToggle" aria-label="Invert Yellow/Black Theme" class="p-2.5 rounded-full border-2 border-black dark:border-[#FFE600] bg-[#FFE600] dark:bg-black hover:bg-black hover:text-[#FFE600] dark:hover:bg-[#FFE600] dark:hover:text-black transition-colors duration-200 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#FFE600]" title="Invert Yellow / Black Theme">
+                <svg id="moonIcon" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                </svg>
+                <svg id="sunIcon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="w-full max-w-md mx-auto px-6 py-6 flex-1 flex flex-col justify-center z-10">
+        
+        <!-- Brand Logo Section (Official Zoom CUP Script Wordmark Logo) -->
+        <div class="flex flex-col items-center text-center mb-6 pt-2">
+            <div class="w-full max-w-[280px] sm:max-w-[320px] py-2 px-2 animate-float">
+                <svg viewBox="0 0 786 317" class="w-full h-auto text-black dark:text-[#FFE600] transition-colors duration-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Zoom CUP Official Logo">
+                    <path fill-rule="evenodd" d="M 237 27.137 C 212.763 36.235, 182.325 43.661, 155 47.144 C 139.669 49.098, 113.409 48.888, 103.643 46.734 C 95.444 44.925, 90.288 44.568, 87.545 45.621 C 85.319 46.475, 83 51.261, 83 55 C 83 62.393, 88.206 66.759, 99.725 69.026 C 109.143 70.879, 147.105 69.724, 163.500 67.085 C 170.650 65.934, 178.506 64.695, 180.958 64.332 L 185.417 63.671 176.056 74.086 C 160.184 91.745, 134.313 124.686, 133.628 128.109 C 132.700 132.752, 134.829 136.271, 139.493 137.799 C 142.933 138.926, 145.119 138.813, 155.979 136.945 C 174.590 133.744, 185.048 135.515, 191.283 142.925 C 194.421 146.654, 195.278 149.361, 194.824 154.112 L 194.500 157.500 175.500 165.200 C 128.902 184.084, 88.047 207.815, 68.393 227.413 C 55.974 239.798, 50.535 250.507, 50.585 262.476 C 50.635 274.259, 55.532 282.578, 65.500 287.812 C 70.064 290.208, 71.502 290.435, 82 290.416 C 91.872 290.398, 94.600 290.013, 101.274 287.697 C 115.559 282.738, 135.040 272.032, 150.105 260.862 C 176.910 240.987, 202.617 207.171, 213.942 176.886 C 215.097 173.798, 216.863 170.529, 217.867 169.621 C 219.521 168.123, 239.015 160, 240.954 160 C 241.401 160, 241.960 164.388, 242.195 169.750 C 242.547 177.768, 243.086 180.399, 245.234 184.563 C 251.879 197.451, 264.803 202.547, 280.482 198.463 C 294.701 194.759, 306.403 183.584, 315.263 165.250 L 319.249 157 323.485 157 C 325.815 157, 329.737 156.724, 332.201 156.386 L 336.682 155.772 336.216 166.251 C 335.847 174.554, 336.120 177.849, 337.530 182.115 C 342.276 196.467, 350.808 202.657, 364.698 201.824 C 379.679 200.925, 395.563 187.732, 405.557 167.886 L 408.889 161.271 414.976 160.582 C 418.324 160.203, 424.312 159.064, 428.282 158.050 C 432.252 157.036, 435.614 156.311, 435.753 156.439 C 436.030 156.695, 433.603 163.674, 429.471 174.500 C 423.126 191.124, 422.680 197.969, 427.607 203.112 C 429.776 205.376, 431.259 206, 434.471 206 C 438.103 206, 439.143 205.404, 443.637 200.750 C 446.424 197.862, 453.584 189.425, 459.548 182 C 475.816 161.747, 484.157 152.048, 490.121 146.452 C 496.115 140.827, 503.514 135.516, 507.424 134.029 C 509.802 133.125, 510 133.259, 509.997 135.775 C 509.992 139.499, 503.956 161.910, 499.040 176.453 C 494.024 191.292, 493.866 195.138, 498.106 199.099 C 500.760 201.578, 502.017 202, 506.759 202 L 512.306 202 534.903 179.176 C 555.848 158.019, 567.975 147.642, 569.716 149.383 C 570.110 149.777, 569.454 154.014, 568.258 158.799 C 564.879 172.325, 564 177.599, 564.006 184.299 C 564.013 192.976, 565.628 197.863, 569.896 202.131 C 581.441 213.676, 602.574 207.176, 624.375 185.375 C 636.896 172.853, 643.083 162.215, 640.002 158.502 C 637.576 155.579, 634.074 156.807, 627.143 163.012 C 612.326 176.278, 597.868 185, 590.694 185 C 584.571 185, 584.602 182.259, 591.050 153.211 C 594.473 137.790, 594.577 136.017, 592.330 131.283 C 589.759 125.864, 585.709 123.824, 578.346 124.237 C 570.091 124.701, 565.309 127.799, 545.144 145.750 C 536.341 153.588, 528.829 160, 528.452 160 C 528.075 160, 528.054 158.988, 528.404 157.750 C 530.595 150.017, 532.320 138.253, 532.403 130.474 C 532.487 122.684, 532.156 120.781, 529.988 116.566 C 528.239 113.168, 526.294 111.070, 523.589 109.667 C 520.110 107.861, 519.125 107.771, 514.192 108.805 C 504.870 110.761, 493.233 118.560, 474.844 135.178 C 470.082 139.480, 465.911 143, 465.573 143 C 465.236 143, 465.819 141.313, 466.871 139.250 C 472.354 128.492, 478 113.591, 478 109.878 C 478 101.883, 469.195 97.205, 463.044 101.932 C 461.694 102.969, 457.644 109.597, 454.044 116.659 L 447.500 129.500 438.009 135.794 C 428.591 142.041, 416.630 146.839, 413.486 145.633 C 412.496 145.253, 412 143.654, 412 140.847 C 412 134.484, 409.157 125.646, 405.800 121.574 C 400.811 115.521, 395.923 113.587, 385.500 113.540 C 373.426 113.486, 368.104 115.974, 356.232 127.226 C 345.336 137.552, 340.311 140.073, 329.250 140.766 L 321 141.282 321 138.246 C 321 136.577, 320.097 132.289, 318.994 128.717 C 313.738 111.698, 294.291 105.060, 275.480 113.862 C 269.782 116.529, 266.732 119.026, 257.557 128.535 L 246.500 139.993 234.347 143.997 C 220.653 148.508, 219.170 148.717, 218.370 146.250 C 214.536 134.422, 206.336 124.924, 195.636 119.917 C 189.618 117.101, 178.059 114.054, 173.250 114.017 C 172.012 114.008, 171 113.642, 171 113.205 C 171 111.843, 187.250 91.913, 195.425 83.248 C 209.668 68.153, 225.368 56.475, 244.836 46.495 C 252.145 42.748, 254.507 41.004, 255.720 38.460 C 257.500 34.728, 256.971 31.504, 253.949 27.662 C 252.204 25.444, 251.075 25.006, 247.177 25.036 C 244.605 25.056, 240.025 26.001, 237 27.137 M 277.020 142.250 C 271.045 148.399, 266.838 157.147, 266.233 164.682 C 265.757 170.615, 265.875 171.029, 268.914 174.068 C 271.656 176.810, 272.586 177.167, 275.684 176.664 C 282.645 175.534, 290.880 167.667, 295.649 157.589 C 296.975 154.787, 297.164 153.564, 296.315 153.277 C 292.998 152.157, 286.829 146.565, 284.472 142.542 C 283.008 140.044, 281.662 138, 281.480 138 C 281.299 138, 279.292 139.912, 277.020 142.250 M 368.520 145.533 C 360.151 154.144, 356.120 167.119, 359.699 173.925 C 360.690 175.809, 362.214 177.785, 363.087 178.317 C 365.893 180.027, 371.581 178.121, 376.443 173.841 C 381.102 169.740, 386.973 160.893, 386.991 157.946 C 386.996 157.092, 385.397 154.842, 383.438 152.946 C 381.479 151.051, 378.666 147.588, 377.188 145.252 C 375.710 142.915, 374.146 141.003, 373.713 141.002 C 373.280 141.001, 370.943 143.040, 368.520 145.533 M 181.500 183.557 C 178.750 184.896, 169.075 189.563, 160 193.928 C 97.369 224.051, 65.146 252.443, 77.416 266.694 C 79.602 269.234, 80.431 269.495, 86.166 269.444 C 98.282 269.336, 111.168 263.590, 131.275 249.329 C 141.775 241.881, 163.712 220.085, 172.167 208.699 C 181.910 195.577, 189.995 180.876, 187.367 181.061 C 186.890 181.094, 184.250 182.218, 181.500 183.557 M 596.372 230.212 C 590.615 232.066, 583.868 238.149, 580.592 244.437 C 577.825 249.750, 577.504 251.275, 577.536 258.937 C 577.564 265.643, 578.063 268.585, 579.837 272.500 C 587.317 289.008, 607.931 294.890, 621.971 284.523 C 627.617 280.354, 627.823 279.142, 623.549 275.226 L 619.806 271.795 616.489 275.011 C 610.368 280.943, 599.699 280.098, 594.041 273.233 C 588.170 266.111, 587.729 253.403, 593.091 245.872 C 595.631 242.305, 601.843 239, 606.010 239 C 609.478 239, 614.378 241.208, 617.746 244.288 L 619.993 246.342 623.474 242.421 L 626.955 238.500 623.053 234.931 C 620.906 232.968, 617.377 230.830, 615.209 230.181 C 610.535 228.780, 600.766 228.796, 596.372 230.212 M 636.423 232.451 C 636.084 233.800, 635.963 243.170, 636.154 253.275 C 636.496 271.438, 636.534 271.714, 639.521 277.552 C 642.144 282.677, 643.312 283.851, 648.367 286.436 C 658.961 291.854, 673.304 289.712, 679.330 281.812 C 683.868 275.862, 685.080 268.419, 684.774 248.384 L 684.500 230.500 679 230.500 L 673.500 230.500 673 250.500 C 672.582 267.222, 672.205 271.040, 670.702 273.793 C 667.556 279.555, 658.488 280.965, 653.199 276.514 C 648.949 272.938, 648 267.653, 648 247.557 L 648 230 642.519 230 C 637.536 230, 636.982 230.223, 636.423 232.451 M 699 258.933 L 699 288 L 704.372 288 L 709.743 288 710.206 279.999 C 710.461 275.598, 710.856 271.829, 711.085 271.623 C 711.313 271.418, 715.890 271.010, 721.254 270.717 C 729.338 270.276, 731.763 269.743, 735.408 267.607 C 747.311 260.631, 747.538 241.022, 735.808 233.251 C 731.766 230.574, 731.219 230.492, 715.328 230.183 L 699 229.865 699 258.933 M 711.663 239.750 C 711.099 240.680, 710.699 248.760, 710.871 255.750 L 711 261 717.953 261 C 726.439 261, 729.415 259.753, 731.521 255.315 C 734.468 249.104, 731.461 241.778, 725.259 240.055 C 720.902 238.845, 712.329 238.653, 711.663 239.750"/>
+                </svg>
+            </div>
+
+            <!-- Interactive Handle Badge -->
+            <button id="copyHandleBtn" class="group mt-1 inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-black text-[#FFE600] dark:bg-[#FFE600] dark:text-black font-bold border-2 border-black dark:border-[#FFE600] shadow-[3px_3px_0px_rgba(0,0,0,0.3)] transition-all duration-200 cursor-pointer active:scale-95" dir="ltr">
+                <span class="text-sm font-mono font-bold tracking-wide">@zoomcup</span>
+                <span class="text-xs opacity-80 group-hover:opacity-100 flex items-center gap-1 border-l border-current pl-2">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                    </svg>
+                    <span id="copyBadgeText" data-en="Copy" data-ar="نسخ">Copy</span>
+                </span>
+            </button>
+        </div>
+
+        <!-- Social Media Links Section (TikTok Only: zoomcup) -->
+        <div class="space-y-4 w-full" aria-label="Social Media Links">
+            
+            <!-- TikTok Card -->
+            <a href="https://www.tiktok.com/@zoomcup" target="_blank" rel="noopener noreferrer" 
+               class="link-card group relative w-full flex items-center justify-between p-5 rounded-2xl bg-black text-[#FFE600] dark:bg-[#FFE600] dark:text-black border-2 border-black dark:border-[#FFE600] shadow-[4px_4px_0px_#000000] dark:shadow-[4px_4px_0px_#FFE600] overflow-hidden">
+                
+                <div class="flex items-center gap-4 z-10">
+                    <div class="w-12 h-12 rounded-xl bg-[#FFE600]/15 dark:bg-black/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <!-- TikTok Vector Icon -->
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                        </svg>
+                    </div>
+                    <div class="text-start">
+                        <span class="block text-[11px] uppercase tracking-[0.2em] opacity-80 font-extrabold" data-en="Official TikTok" data-ar="حساب تيك توك الرسمي">Official TikTok</span>
+                        <span class="block text-xl font-extrabold tracking-tight" dir="ltr">@zoomcup</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 z-10">
+                    <span class="text-xs font-extrabold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-200 hidden sm:inline" data-en="Follow" data-ar="متابعة">Follow</span>
+                    <div class="w-9 h-9 rounded-full bg-[#FFE600]/15 dark:bg-black/10 flex items-center justify-center group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8M17 7V16"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Menu Section (Exact Items, Prices, Calories & Allergen Icons) -->
+        <section id="menuSection" class="mt-9 pt-7 border-t-2 border-black dark:border-[#FFE600] w-full" aria-label="Menu">
+            <!-- Section Header -->
+            <div class="flex items-end justify-between mb-5">
+                <div>
+                    <span class="block text-[10px] uppercase tracking-[0.25em] opacity-75 font-extrabold" data-en="Zoom Cup Selection" data-ar="قائمة زوم كب">Zoom Cup Selection</span>
+                    <h2 class="text-2xl font-display font-black tracking-tight uppercase" data-en="Menu" data-ar="المنيو">Menu</h2>
+                </div>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-6 no-scrollbar" role="tablist">
+                <button data-category="all" class="menu-tab active-tab shrink-0 px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider border-2 border-black dark:border-[#FFE600] bg-black text-[#FFE600] dark:bg-[#FFE600] dark:text-black transition-all" data-en="All" data-ar="الكل">
+                    All
+                </button>
+                <button data-category="coffee" class="menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider border-2 border-black dark:border-[#FFE600] bg-transparent hover:bg-black/10 dark:hover:bg-[#FFE600]/10 transition-all" data-en="Coffee" data-ar="القهوة">
+                    Coffee
+                </button>
+                <button data-category="sweet" class="menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider border-2 border-black dark:border-[#FFE600] bg-transparent hover:bg-black/10 dark:hover:bg-[#FFE600]/10 transition-all" data-en="Sweet" data-ar="الحلى">
+                    Sweet
+                </button>
+                <button data-category="drinks" class="menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider border-2 border-black dark:border-[#FFE600] bg-transparent hover:bg-black/10 dark:hover:bg-[#FFE600]/10 transition-all" data-en="Drinks" data-ar="المشروبات">
+                    Drinks
+                </button>
+            </div>
+
+            <!-- Menu Cards Container (Styled after the physical menu boards) -->
+            <div class="space-y-6">
+
+                <!-- Category 1: COFFEE -->
+                <div class="menu-group rounded-2xl border-2 border-black dark:border-[#FFE600] overflow-hidden shadow-[4px_4px_0px_#000000] dark:shadow-[4px_4px_0px_#FFE600] bg-white/90 dark:bg-[#161616] text-black dark:text-[#FFE600]" data-group="coffee">
+                    <!-- Banner Header -->
+                    <div class="bg-black text-[#FFE600] dark:bg-[#FFE600] dark:text-black py-2.5 px-4 text-center border-b-2 border-black dark:border-[#FFE600]">
+                        <h3 class="text-lg font-display font-black tracking-[0.18em] uppercase" data-en="COFFEE" data-ar="COFFEE • القهوة">COFFEE</h3>
+                    </div>
+
+                    <div class="divide-y divide-black/15 dark:divide-[#FFE600]/20 p-4 space-y-3">
+                        <!-- Coffee of the Day -->
+                        <div class="flex items-center justify-between pt-1">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Coffee of the Day" data-ar="قهوة اليوم">Coffee of the Day</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="قهوة اليوم (صغير 5 / كبير 7)" data-ar="Coffee of the Day (S 5 / L 7)">قهوة اليوم (صغير 5 / كبير 7)</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 2 - 5 kcal" data-ar="🔥 ٢ - ٥ سعرة">🔥 2 - 5 kcal</span>
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs" title="Caffeine / كافيين" aria-label="Caffeine">☕</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">7 / 5 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Ethiopian V60 -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Ethiopian V60" data-ar="V60 اثيوبي">Ethiopian V60</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="V60 اثيوبي" data-ar="Ethiopian V60">V60 اثيوبي</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 3 kcal" data-ar="🔥 ٣ سعرة">🔥 3 kcal</span>
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs" title="Caffeine / كافيين" aria-label="Caffeine">☕</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">9 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Colombian V60 -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Colombian V60" data-ar="V60 كولومبي">Colombian V60</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="V60 كولومبي" data-ar="Colombian V60">V60 كولومبي</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 3 kcal" data-ar="🔥 ٣ سعرة">🔥 3 kcal</span>
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs" title="Caffeine / كافيين" aria-label="Caffeine">☕</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">9 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Adham V60 -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Adham V60" data-ar="V60 أدهم">Adham V60</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="V60 أدهم" data-ar="Adham V60">V60 أدهم</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 3 kcal" data-ar="🔥 ٣ سعرة">🔥 3 kcal</span>
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs" title="Caffeine / كافيين" aria-label="Caffeine">☕</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">9 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Premium V60 -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-extrabold text-base leading-snug" data-en="Premium V60" data-ar="V60 فاخر">Premium V60</h4>
+                                    <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-black text-[#FFE600] dark:bg-[#FFE600] dark:text-black" data-en="Special" data-ar="فاخر">Special</span>
+                                </div>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="V60 فاخر" data-ar="Premium V60">V60 فاخر</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 4 kcal" data-ar="🔥 ٤ سعرة">🔥 4 kcal</span>
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs" title="Caffeine / كافيين" aria-label="Caffeine">☕</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">14 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 2: SWEET -->
+                <div class="menu-group rounded-2xl border-2 border-black dark:border-[#FFE600] overflow-hidden shadow-[4px_4px_0px_#000000] dark:shadow-[4px_4px_0px_#FFE600] bg-white/90 dark:bg-[#161616] text-black dark:text-[#FFE600]" data-group="sweet">
+                    <!-- Banner Header -->
+                    <div class="bg-black text-[#FFE600] dark:bg-[#FFE600] dark:text-black py-2.5 px-4 text-center border-b-2 border-black dark:border-[#FFE600]">
+                        <h3 class="text-lg font-display font-black tracking-[0.18em] uppercase" data-en="SWEET" data-ar="SWEET • الحلى">SWEET</h3>
+                    </div>
+
+                    <div class="divide-y divide-black/15 dark:divide-[#FFE600]/20 p-4 space-y-3">
+                        <!-- Crunchy Dolce -->
+                        <div class="flex items-center justify-between pt-1">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Crunchy Dolce" data-ar="كرانشي دولتشي">Crunchy Dolce</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="كرانشي دولتشي" data-ar="Crunchy Dolce">كرانشي دولتشي</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 420 kcal" data-ar="🔥 ٤٢٠ سعرة">🔥 420 kcal</span>
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs tracking-widest" title="Milk, Gluten, Egg, Soy / حليب، جلوتين، بيض، صويا">🥛 🌾 🥚 🫘</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">16 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Fruity Cheese -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Fruity Cheese" data-ar="شيز فروتي">Fruity Cheese</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="شيز فروتي" data-ar="Fruity Cheese">شيز فروتي</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 380 kcal" data-ar="🔥 ٣٨٠ سعرة">🔥 380 kcal</span>
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs tracking-widest" title="Milk, Gluten, Egg / حليب، جلوتين، بيض">🥛 🌾 🥚</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">14 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Pecan -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Pecan" data-ar="بيكان">Pecan</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="بيكان" data-ar="Pecan">بيكان</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 460 kcal" data-ar="🔥 ٤٦٠ سعرة">🔥 460 kcal</span>
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs tracking-widest" title="Nuts (Pecan), Milk, Gluten, Egg / مكسرات (بيكان)، حليب، جلوتين، بيض">🥜 🥛 🌾 🥚</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">16 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Chocolate Bar -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Chocolate Bar" data-ar="شوكلت بار">Chocolate Bar</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="شوكلت بار" data-ar="Chocolate Bar">شوكلت بار</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 250 kcal" data-ar="🔥 ٢٥٠ سعرة">🔥 250 kcal</span>
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs tracking-widest" title="Milk, Soy, Nuts, Gluten / حليب، صويا، مكسرات، جلوتين">🥛 🫘 🥜 🌾</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">7 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 3: DRINKS -->
+                <div class="menu-group rounded-2xl border-2 border-black dark:border-[#FFE600] overflow-hidden shadow-[4px_4px_0px_#000000] dark:shadow-[4px_4px_0px_#FFE600] bg-white/90 dark:bg-[#161616] text-black dark:text-[#FFE600]" data-group="drinks">
+                    <!-- Banner Header -->
+                    <div class="bg-black text-[#FFE600] dark:bg-[#FFE600] dark:text-black py-2.5 px-4 text-center border-b-2 border-black dark:border-[#FFE600]">
+                        <h3 class="text-lg font-display font-black tracking-[0.18em] uppercase" data-en="DRINKS" data-ar="DRINKS • المشروبات">DRINKS</h3>
+                    </div>
+
+                    <div class="divide-y divide-black/15 dark:divide-[#FFE600]/20 p-4 space-y-3">
+                        <!-- Matcha Classic -->
+                        <div class="flex items-center justify-between pt-1">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Matcha Classic" data-ar="ماتشا كلاسيك">Matcha Classic</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="ماتشا كلاسيك" data-ar="Matcha Classic">ماتشا كلاسيك</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 160 kcal" data-ar="🔥 ١٦٠ سعرة">🔥 160 kcal</span>
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs tracking-widest" title="Milk, Caffeine / حليب، كافيين">🥛 ☕</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">12 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Matcha Vanilla -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Matcha Vanilla" data-ar="ماتشا فانيليا">Matcha Vanilla</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="ماتشا فانيليا" data-ar="Matcha Vanilla">ماتشا فانيليا</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 210 kcal" data-ar="🔥 ٢١٠ سعرة">🔥 210 kcal</span>
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs tracking-widest" title="Milk, Caffeine / حليب، كافيين">🥛 ☕</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">14 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Peach Iced Tea -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Peach Iced Tea" data-ar="آيس تي خوخ">Peach Iced Tea</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="آيس تي خوخ" data-ar="Peach Iced Tea">آيس تي خوخ</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 120 kcal" data-ar="🔥 ١٢٠ سعرة">🔥 120 kcal</span>
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs" title="Caffeine / كافيين">☕</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">8 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Lumi Iced Tea -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Lumi Iced Tea" data-ar="آيس تي ليمون">Lumi Iced Tea</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="آيس تي ليمون" data-ar="Lumi Iced Tea">آيس تي ليمون</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 110 kcal" data-ar="🔥 ١١٠ سعرة">🔥 110 kcal</span>
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs" title="Caffeine / كافيين">☕</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">8 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Smoothie Melon -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Smoothie Melon" data-ar="سموذي شمام">Smoothie Melon</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="سموذي شمام" data-ar="Smoothie Melon">سموذي شمام</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 195 kcal" data-ar="🔥 ١٩٥ سعرة">🔥 195 kcal</span>
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-black/30 dark:border-[#FFE600]/40 text-xs" title="Dairy / حليب">🥛</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">9 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Roselle (Passion - Peach - Dragon) -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Roselle (Passion - Peach - Dragon)" data-ar="كركديه (باشن - خوخ - دراجون)">Roselle (Passion - Peach - Dragon)</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="كركديه (باشن - خوخ - دراجون)" data-ar="Roselle (Passion - Peach - Dragon)">كركديه (باشن - خوخ - دراجون)</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 135 kcal" data-ar="🔥 ١٣٥ سعرة">🔥 135 kcal</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">9 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Water -->
+                        <div class="flex items-center justify-between pt-3">
+                            <div>
+                                <h4 class="font-extrabold text-base leading-snug" data-en="Water" data-ar="ماء">Water</h4>
+                                <p class="text-xs font-arabic font-bold opacity-70" data-en="ماء" data-ar="Water">ماء</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-black/10 dark:bg-[#FFE600]/15" data-en="🔥 0 kcal" data-ar="🔥 ٠ سعرة">🔥 0 kcal</span>
+                                </div>
+                            </div>
+                            <div class="text-end shrink-0">
+                                <span class="font-mono font-black text-lg" dir="ltr">1 <span class="text-sm font-bold">﷼</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Allergen Icons Key & Daily Calorie Requirement Card -->
+            <div class="mt-6 p-4 rounded-2xl border-2 border-black dark:border-[#FFE600] bg-black/5 dark:bg-[#FFE600]/10 text-center space-y-3">
+                <div class="text-[11px] font-extrabold uppercase tracking-wider opacity-85" data-en="Allergen Icons Guide" data-ar="دليل رموز مسببات الحساسية">
+                    Allergen Icons Guide
+                </div>
+                <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-bold">
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 dark:bg-black/60 border border-black/30 dark:border-[#FFE600]/40">
+                        <span>🥛</span> <span data-en="Milk" data-ar="حليب">Milk</span>
+                    </span>
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 dark:bg-black/60 border border-black/30 dark:border-[#FFE600]/40">
+                        <span>🌾</span> <span data-en="Gluten" data-ar="جلوتين">Gluten</span>
+                    </span>
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 dark:bg-black/60 border border-black/30 dark:border-[#FFE600]/40">
+                        <span>🥚</span> <span data-en="Egg" data-ar="بيض">Egg</span>
+                    </span>
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 dark:bg-black/60 border border-black/30 dark:border-[#FFE600]/40">
+                        <span>🥜</span> <span data-en="Nuts" data-ar="مكسرات">Nuts</span>
+                    </span>
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 dark:bg-black/60 border border-black/30 dark:border-[#FFE600]/40">
+                        <span>🫘</span> <span data-en="Soy" data-ar="صويا">Soy</span>
+                    </span>
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 dark:bg-black/60 border border-black/30 dark:border-[#FFE600]/40">
+                        <span>☕</span> <span data-en="Caffeine" data-ar="كافيين">Caffeine</span>
+                    </span>
+                </div>
+                <div class="pt-2 border-t border-black/15 dark:border-[#FFE600]/20">
+                    <p class="text-xs font-extrabold leading-relaxed" data-en="* Adults need an average of 2,000 kcal per day. Individual caloric needs may vary." data-ar="* يحتاج البالغون في المتوسط إلى ٢٠٠٠ سعرة حرارية يومياً، وقد تختلف الاحتياجات الفردية من السعرات الحرارية من شخص لآخر.">
+                        * Adults need an average of 2,000 kcal per day. Individual caloric needs may vary.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Minimal Divider & Tagline -->
+        <div class="mt-10 pt-6 border-t-2 border-black/20 dark:border-[#FFE600]/20 flex items-center justify-between text-xs font-extrabold uppercase tracking-[0.18em]">
+            <span data-en="Specialty V60" data-ar="قهوة مقطرة مختصة">Specialty V60</span>
+            <span class="font-script tracking-normal text-base">Zoom Cup</span>
+            <span data-en="Freshly Brewed" data-ar="تُحضر طازجة">Freshly Brewed</span>
+        </div>
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="w-full max-w-md mx-auto px-6 pb-6 text-center z-10">
+        <p class="text-[11px] font-bold tracking-widest uppercase opacity-75">
+            &copy; <span id="yearSpan"></span> <span data-en="Zoom CUP • All Rights Reserved" data-ar="زوم كب • جميع الحقوق محفوظة">Zoom CUP • All Rights Reserved</span>
+        </p>
+    </footer>
+
+    <!-- Toast Notification for Copy Action -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-20 opacity-0 pointer-events-none z-50 px-5 py-3 rounded-full bg-black text-[#FFE600] dark:bg-[#FFE600] dark:text-black text-xs font-extrabold uppercase tracking-widest shadow-xl transition-all duration-300 flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+        <span id="toastMessage">Copied @zoomcup</span>
+    </div>
+
+    <!-- QR Code & Quick Share Modal (TikTok @zoomcup) -->
+    <div id="qrModal" class="fixed inset-0 z-50 hidden items-center justify-center p-6 bg-black/70 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-[#FFE600] text-black dark:bg-[#111] dark:text-[#FFE600] border-2 border-black dark:border-[#FFE600] rounded-3xl max-w-xs w-full p-6 text-center shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#FFE600] transform scale-95 transition-transform duration-300" id="qrModalCard">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-extrabold uppercase tracking-widest" data-en="Scan TikTok QR" data-ar="امسح رمز التيك توك">Scan TikTok QR</span>
+                <button id="closeQrBtn" class="p-1.5 rounded-full border border-current hover:bg-black hover:text-[#FFE600] dark:hover:bg-[#FFE600] dark:hover:text-black transition-colors" aria-label="Close modal">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Generated QR Visual Frame -->
+            <div class="bg-white p-4 rounded-2xl border-2 border-black inline-block mb-4 shadow-inner">
+                <img id="qrImage" 
+                     src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=000000&bgcolor=ffffff&data=https://www.tiktok.com/@zoomcup" 
+                     alt="QR Code for TikTok @zoomcup" 
+                     class="w-44 h-44 mx-auto rounded-lg"
+                     onerror="this.onerror=null; this.src='https://placehold.co/200x200/000000/FFE600?text=@zoomcup';">
+            </div>
+
+            <p id="qrPlatformLabel" class="text-base font-black tracking-wide mb-1" dir="ltr">TikTok: @zoomcup</p>
+            <p class="text-xs font-semibold opacity-75 mb-5" data-en="Point your camera to open our TikTok profile" data-ar="وجه الكاميرا لفتح حسابنا في تيك توك مباشرة">Point your camera to open our TikTok profile</p>
+
+            <button id="copyUrlBtn" class="w-full py-3 rounded-xl bg-black text-[#FFE600] dark:bg-[#FFE600] dark:text-black text-xs font-extrabold uppercase tracking-widest hover:opacity-90 transition-opacity">
+                <span data-en="Copy TikTok Link" data-ar="نسخ رابط تيك توك">Copy TikTok Link</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('yearSpan').textContent = new Date().getFullYear();
+
+        // Language state ('en' or 'ar')
+        let currentLang = 'en';
+        const langToggle = document.getElementById('langToggle');
+        const langBtnLabel = document.getElementById('langBtnLabel');
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const htmlEl = document.documentElement;
+            htmlEl.setAttribute('lang', lang);
+            htmlEl.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+            // Update toggle button label
+            if (lang === 'ar') {
+                langBtnLabel.textContent = 'EN';
+                langBtnLabel.classList.remove('font-arabic');
+            } else {
+                langBtnLabel.textContent = 'عربي';
+                langBtnLabel.classList.add('font-arabic');
+            }
+
+            // Update all bilingual elements
+            const translatableElements = document.querySelectorAll('[data-en][data-ar]');
+            translatableElements.forEach(el => {
+                el.textContent = el.getAttribute('data-' + lang);
+            });
+        }
+
+        langToggle.addEventListener('click', () => {
+            setLanguage(currentLang === 'en' ? 'ar' : 'en');
+        });
+
+        // Clipboard helper compatible with iframe restrictions
+        function copyTextToClipboard(text, message) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast(message || ('Copied ' + text));
+            } catch (err) {
+                showToast('TikTok: @zoomcup');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // Toast notification controller
+        let toastTimeout;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 2400);
+        }
+
+        // Copy Handle Button
+        const copyHandleBtn = document.getElementById('copyHandleBtn');
+        const copyBadgeText = document.getElementById('copyBadgeText');
+        copyHandleBtn.addEventListener('click', () => {
+            const copiedToast = currentLang === 'ar' ? 'تم نسخ @zoomcup' : 'Copied @zoomcup';
+            copyTextToClipboard('zoomcup', copiedToast);
+            copyBadgeText.textContent = currentLang === 'ar' ? 'تم النسخ!' : 'Copied!';
+            setTimeout(() => {
+                copyBadgeText.textContent = currentLang === 'ar' ? 'نسخ' : 'Copy';
+            }, 2000);
+        });
+
+        // Theme Toggle (Yellow/Black <-> Black/Yellow)
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+        });
+
+        // QR Code Modal Logic
+        const qrBtn = document.getElementById('qrBtn');
+        const qrModal = document.getElementById('qrModal');
+        const qrModalCard = document.getElementById('qrModalCard');
+        const closeQrBtn = document.getElementById('closeQrBtn');
+        const copyUrlBtn = document.getElementById('copyUrlBtn');
+
+        const tiktokUrl = 'https://www.tiktok.com/@zoomcup';
+
+        function openQrModal() {
+            qrModal.classList.remove('hidden');
+            qrModal.classList.add('flex');
+            requestAnimationFrame(() => {
+                qrModal.classList.remove('opacity-0');
+                qrModalCard.classList.remove('scale-95');
+                qrModalCard.classList.add('scale-100');
+            });
+        }
+
+        function closeQrModal() {
+            qrModal.classList.add('opacity-0');
+            qrModalCard.classList.remove('scale-100');
+            qrModalCard.classList.add('scale-95');
+            setTimeout(() => {
+                qrModal.classList.add('hidden');
+                qrModal.classList.remove('flex');
+            }, 250);
+        }
+
+        qrBtn.addEventListener('click', openQrModal);
+        closeQrBtn.addEventListener('click', closeQrModal);
+        qrModal.addEventListener('click', (e) => {
+            if (e.target === qrModal) closeQrModal();
+        });
+
+        copyUrlBtn.addEventListener('click', () => {
+            const linkToast = currentLang === 'ar' ? 'تم نسخ رابط تيك توك!' : 'TikTok link copied!';
+            copyTextToClipboard(tiktokUrl, linkToast);
+        });
+
+        // Menu Category Tabs Filter Logic
+        const menuTabs = document.querySelectorAll('.menu-tab');
+        const menuGroups = document.querySelectorAll('.menu-group');
+
+        menuTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const selectedCategory = tab.getAttribute('data-category');
+
+                // Update active button styling
+                menuTabs.forEach(t => {
+                    t.className = 'menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider border-2 border-black dark:border-[#FFE600] bg-transparent hover:bg-black/10 dark:hover:bg-[#FFE600]/10 transition-all';
+                });
+                tab.className = 'menu-tab active-tab shrink-0 px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider border-2 border-black dark:border-[#FFE600] bg-black text-[#FFE600] dark:bg-[#FFE600] dark:text-black transition-all';
+
+                // Show/Hide corresponding menu sections
+                menuGroups.forEach(group => {
+                    if (selectedCategory === 'all' || group.getAttribute('data-group') === selectedCategory) {
+                        group.classList.remove('hidden');
+                    } else {
+                        group.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
